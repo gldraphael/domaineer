@@ -1,0 +1,17 @@
+{
+    "name": "whois.app",
+    "private": true,
+    "version": "0.1.0",
+    "description": "",
+    "scripts": {
+        "build:css": "tailwindcss -i ./assets/app.css -o ./wwwroot/dist/app.css --minify",
+        "watch": "tailwindcss -i ./assets/app.css -o ./wwwroot/dist/app.css --watch"
+    },
+    "author": "gldraphael@gmail.com",
+    "devDependencies": {
+        "@tailwindcss/forms": "^0.5.7",
+        "autoprefixer": "^10.4.17",
+        "postcss": "^8.4.35",
+        "tailwindcss": "^3.4.1"
+    }
+}

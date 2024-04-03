@@ -1,0 +1,92 @@
+﻿@page "/"
+@attribute [StreamRendering(true)]
+@inject ILogger<Home> logger
+
+@using System.Text.RegularExpressions
+@using Whois.NET
+
+<PageTitle>Anonymous domain avaibility check</PageTitle>
+
+<form 
+    method="post" @onsubmit="Submit" @formname="form-domain-search"
+    class="
+        flex 
+    ">
+    <AntiforgeryToken />
+    <InputText 
+        @bind-Value="Model.Domain" 
+        aria-label="Domain"
+        placeholder="example.org"
+        autofocus
+        class="grow"
+    />
+    <button type="submit" class="
+        text-gray-900 text-sm px-5 py-2.5 text-center
+        bg-gradient-to-r from-teal-200 to-lime-200 
+        hover:bg-gradient-to-l hover:from-teal-200 hover:to-lime-200 
+        focus:ring-4 focus:outline-none focus:ring-lime-200 
+        dark:focus:ring-teal-700 
+        font-medium rounded-sm">Check</button>
+</form>
+
+
+@if (IsDomainAvailable is not null)
+{
+    if(IsDomainAvailable.Value)
+    {
+        <p>@Model.Domain is available.</p>
+    }
+    else
+    {
+        <p>@Model.Domain is taken.</p>
+    }
+}
+
+
+@code {
+    [SupplyParameterFromForm]
+    public DomainSearch Model { get; set; } = new();
+    public bool? IsDomainAvailable;
+
+    const string DOMAIN_REGEX = @"(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z0-9][a-z0-9-]{0,61}[a-z0-9]";
+
+    protected override void OnInitialized()
+    {
+
+    }
+
+    private async Task Submit()
+    {
+        // TODO: show validation error
+        if (Model.Domain is null) return;
+
+        try
+        {
+            var match = Regex.Match(
+                input: Model.Domain,
+                pattern: DOMAIN_REGEX,
+                options: RegexOptions.IgnoreCase | RegexOptions.Compiled,
+                matchTimeout: TimeSpan.FromSeconds(3)
+            );
+            // TODO: show validation error
+            if (match.Success is false) return;
+        }
+        catch (RegexMatchTimeoutException ex)
+        {
+            logger.LogError(ex, ex.Message);
+            // TODO: show validation error
+            return;
+        }
+        
+
+        var response = await WhoisClient.QueryAsync(Model.Domain);
+
+        // TODO: does this make sense if a domain was registered but does not resolve yet?
+        IsDomainAvailable = response.AddressRange is not null;
+    }
+
+    public class DomainSearch
+    {
+        public string? Domain { get; set; }
+    }
+}
