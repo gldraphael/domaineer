@@ -1,4 +1,4 @@
-using WhoisApp.WebApp.Components;
+using Domaineer.WebApp.Components;
 
 var builder = WebApplication.CreateBuilder(args);
 
