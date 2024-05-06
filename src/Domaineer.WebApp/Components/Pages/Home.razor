@@ -3,6 +3,7 @@
 @inject ILogger<Home> logger
 
 @using System.Text.RegularExpressions
+@using Domaineer.WebApp.Services
 @using Whois.NET
 
 <PageTitle>Anonymous domain avaibility check</PageTitle>
@@ -78,11 +79,7 @@
             return;
         }
         
-
-        var response = await WhoisClient.QueryAsync(Model.Domain);
-
-        // TODO: does this make sense if a domain was registered but does not resolve yet?
-        IsDomainAvailable = response.AddressRange is not null;
+        IsDomainAvailable = !await DogeService.DoesDomainExist(Model.Domain);
     }
 
     public class DomainSearch
