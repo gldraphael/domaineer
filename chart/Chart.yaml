@@ -1,0 +1,7 @@
+apiVersion: v2
+name: domaineer
+description: domaineer.xyz
+type: application
+
+version: 0.1.0
+appVersion: "1.16.0"
