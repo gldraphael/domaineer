@@ -14,6 +14,13 @@ WORKDIR /app
 EXPOSE 8080
 EXPOSE 8081
 
+FROM node as css
+WORKDIR /stage
+COPY ./src/Domaineer.WebApp/ .
+RUN npm install \
+    && npm run build:css \
+    && mkdir -p /css \
+    && cp wwwroot/dist/*.css /css
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
@@ -27,6 +34,7 @@ RUN dotnet build "./Domaineer.WebApp.csproj" -c $BUILD_CONFIGURATION -o /app/bui
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
 RUN dotnet publish "./Domaineer.WebApp.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+COPY --from=css /css/* /app/publish/wwwroot/dist
 
 FROM base AS final
 WORKDIR /app
