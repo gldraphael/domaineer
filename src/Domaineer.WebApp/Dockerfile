@@ -35,6 +35,7 @@ FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
 RUN dotnet publish "./Domaineer.WebApp.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 COPY --from=css /css/* /app/publish/wwwroot/dist
+RUN chmod +x /app/publish/doge
 
 FROM base AS final
 WORKDIR /app
