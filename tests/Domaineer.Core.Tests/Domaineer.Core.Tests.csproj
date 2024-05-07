@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Domaineer.Core\Domaineer.Core.csproj" />
+    <ProjectReference Include="..\..\src\Domaineer.Core\Domaineer.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>
