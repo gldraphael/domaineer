@@ -1,17 +1,19 @@
 ﻿@page "/"
 @attribute [StreamRendering(true)]
-@inject ILogger<Home> logger
+@inject ILogger<HomePage> logger
 
 @using System.Text.RegularExpressions
 @using Domaineer.WebApp.Services
 @using Whois.NET
 
-<PageTitle>Anonymous domain avaibility check</PageTitle>
+<PageTitle>Anonymous domain search</PageTitle>
 
+<div class="h-full flex justify-center items-center">
 <form 
     method="post" @onsubmit="Submit" @formname="form-domain-search"
+    style=""
     class="
-        flex 
+        flex
     ">
     <AntiforgeryToken />
     <InputText 
@@ -19,7 +21,7 @@
         aria-label="Domain"
         placeholder="example.org"
         autofocus
-        class="grow"
+        class="md:w-96 "
     />
     <button type="submit" class="
         text-gray-900 text-sm px-5 py-2.5 text-center
@@ -29,7 +31,7 @@
         dark:focus:ring-teal-700 
         font-medium rounded-sm">Check</button>
 </form>
-
+</div>
 
 @if (IsDomainAvailable is not null)
 {
