@@ -3,5 +3,6 @@ obj/
 
 .vs
 *.user
+.idea/
 
 node_modules/

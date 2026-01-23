@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Domaineer.Core/Domaineer.Core.csproj" />
+    <Project Path="src/Domaineer.WebApp/Domaineer.WebApp.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Domaineer.Core.Tests/Domaineer.Core.Tests.csproj" />
+  </Folder>
+</Solution>
