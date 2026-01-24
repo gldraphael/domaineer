@@ -1,6 +1,81 @@
-﻿@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+
+@plugin '@tailwindcss/forms';
+
+@theme {
+  --breakpoint-*: initial;
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 992px;
+
+  --color-primary-50: #f0f9fb;
+  --color-primary-100: #d9edf4;
+  --color-primary-200: #b8dde9;
+  --color-primary-300: #72bad2;
+  --color-primary-400: #4fa3c1;
+  --color-primary-500: #3387a7;
+  --color-primary-600: #2e6d8c;
+  --color-primary-700: #2b5a73;
+  --color-primary-800: #2a4c60;
+  --color-primary-900: #274052;
+  --color-primary-950: #152837;
+  --color-primary: #72bad2;
+
+  --color-primaryDark-50: #ebf3fe;
+  --color-primaryDark-100: #d8e6fd;
+  --color-primaryDark-200: #b1cefb;
+  --color-primaryDark-300: #8ab5fa;
+  --color-primaryDark-400: #639cf8;
+  --color-primaryDark-500: #3b82f6;
+  --color-primaryDark-600: #0b60ea;
+  --color-primaryDark-700: #0848b0;
+  --color-primaryDark-800: #053075;
+  --color-primaryDark-900: #03183b;
+  --color-primaryDark-950: #010c1d;
+
+  --color-secondary-50: #f1f6fe;
+  --color-secondary-100: #e3ebfb;
+  --color-secondary-200: #c0d7f7;
+  --color-secondary-300: #89b7f0;
+  --color-secondary-400: #4b92e5;
+  --color-secondary-500: #2373d4;
+  --color-secondary-600: #1558b4;
+  --color-secondary-700: #124792;
+  --color-secondary-800: #133d79;
+  --color-secondary-900: #153465;
+  --color-secondary-950: #03070e;
+
+  --color-accent-50: #fff0f3;
+  --color-accent-100: #ffe2e7;
+  --color-accent-200: #ffc9d6;
+  --color-accent-300: #ff9db5;
+  --color-accent-400: #ff678f;
+  --color-accent-500: #ff316c;
+  --color-accent-600: #f1135d;
+  --color-accent-700: #cb054c;
+  --color-accent-800: #aa0747;
+  --color-accent-900: #910a43;
+  --color-accent-950: #510020;
+  --color-accent: #f1135d;
+}
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+}
 
 *{
     /*outline: 1px dotted red;*/
