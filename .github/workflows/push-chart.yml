@@ -44,20 +44,18 @@ jobs:
             echo "version=0.0.0-dev" >> $GITHUB_OUTPUT
           fi
 
-      - name: Update Chart.yaml with version
+      - name: Set chart version
         run: |
           sed -i "s/^version:.*/version: ${{ steps.get_version.outputs.version }}/" ./chart/Chart.yaml
           sed -i "s/^appVersion:.*/appVersion: \"${{ steps.get_version.outputs.version }}\"/" ./chart/Chart.yaml
           cat ./chart/Chart.yaml
+          helm template --debug ./chart
 
-      - name: Validate Helm chart (dry-run)
-        if: "!startsWith(github.ref, 'refs/tags/v')"
+      - name: Lint
         run: |
           helm lint chart
-          helm package chart --dry-run
-          echo "Helm chart validation successful (dry-run mode)"
 
-      - name: Publish Helm chart to GHCR
+      - name: Publish chart to registry
         if: startsWith(github.ref, 'refs/tags/v')
         run: |
           helm package chart
