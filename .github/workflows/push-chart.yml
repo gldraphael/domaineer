@@ -29,9 +29,21 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Extract version from tag
+        id: get_version
+        run: |
+          VERSION=${GITHUB_REF#refs/tags/v}
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Chart version: $VERSION"
+
+      - name: Update Chart.yaml with version
+        run: |
+          sed -i "s/^version:.*/version: ${{ steps.get_version.outputs.version }}/" ./chart/Chart.yaml
+          sed -i "s/^appVersion:.*/appVersion: \"${{ steps.get_version.outputs.version }}\"/" ./chart/Chart.yaml
+          cat ./chart/Chart.yaml
+
       - name: Publish Helm chart to GHCR
         run: |
           helm package chart
-          export CHART_VERSION=$(grep 'version:' ./chart/Chart.yaml | tail -n1 | awk '{ print $2 }')
-          helm push domaineer-$CHART_VERSION.tgz oci://${{ env.REGISTRY }}/gldraphael/charts
-          rm domaineer-$CHART_VERSION.tgz
+          helm push domaineer-${{ steps.get_version.outputs.version }}.tgz oci://${{ env.REGISTRY }}/gldraphael/charts
+          rm domaineer-${{ steps.get_version.outputs.version }}.tgz
