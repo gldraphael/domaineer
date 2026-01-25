@@ -19,7 +19,7 @@ If you need any assistance self-hosting this project, please open an issue.
 
 ## License
 
-TBD.
+This project is licensed under the European Union Public License (EUPL). See the [LICENSE](LICENSE) file, or learn more about EUPL [here](https://choosealicense.com/licenses/eupl-1.2)
 
 
 [ghcr]: https://github.com/gldraphael/domaineer/pkgs/container/domaineer
