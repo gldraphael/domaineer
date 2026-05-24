@@ -8,65 +8,76 @@
 
 <PageTitle>Anonymous domain search</PageTitle>
 
-<div class="h-full flex justify-center items-center">
-<form 
-    method="post" @onsubmit="Submit" @formname="form-domain-search"
-    style=""
-    class="
-        flex
-    ">
-    <AntiforgeryToken />
-    <InputText 
-        @bind-Value="Model.Domain" 
-        aria-label="Domain"
-        placeholder="example.org"
-        autofocus
-        class="md:w-96 "
-    />
-    <button type="submit" class="
-        text-gray-900 text-sm px-5 py-2.5 text-center
-        bg-linear-to-r from-teal-200 to-lime-200 
-        hover:bg-linear-to-l hover:from-teal-200 hover:to-lime-200 
-        focus:ring-4 focus:outline-hidden focus:ring-lime-200 
-        dark:focus:ring-teal-700 
-        font-medium rounded-xs">Check</button>
-</form>
-</div>
+<div class="h-full flex justify-center items-start pt-4 md:items-center md:pt-0">
+    <div class="w-full max-w-xl flex flex-col gap-4">
+        <form
+            method="post" @onsubmit="Submit" @formname="form-domain-search"
+            class="flex w-full flex-col gap-3 sm:flex-row">
+            <AntiforgeryToken />
+            <InputText
+                @bind-Value="Model!.Domain"
+                aria-label="Domain"
+                placeholder="example.org"
+                autofocus
+                class="w-full flex-1 rounded-xs"
+            />
+            <button type="submit" class="
+                text-gray-900 text-sm px-5 py-2.5 text-center
+                bg-linear-to-r from-teal-200 to-lime-200
+                hover:bg-linear-to-l hover:from-teal-200 hover:to-lime-200
+                focus:ring-4 focus:outline-hidden focus:ring-lime-200
+                dark:focus:ring-teal-700
+                font-medium rounded-xs whitespace-nowrap">Check</button>
+        </form>
 
-@if (IsDomainAvailable is not null)
-{
-    if(IsDomainAvailable.Value)
-    {
-        <p>@Model.Domain is available.</p>
-    }
-    else
-    {
-        <p>@Model.Domain is taken.</p>
-    }
-}
+        <div class="w-full min-h-20">
+            @if (IsDomainAvailable is not null)
+            {
+                if (IsDomainAvailable.Value)
+                {
+                    <section role="status" aria-live="polite" class="w-full min-h-20 flex items-center justify-center rounded-md border border-emerald-200 bg-emerald-50 px-5 py-4 text-center text-emerald-950 shadow-sm">
+                        <p class="text-lg">
+                            <span class="font-semibold break-all">@Model?.Domain</span> is available.
+                        </p>
+                    </section>
+                }
+                else
+                {
+                    <section role="status" aria-live="polite" class="w-full min-h-20 flex items-center justify-center rounded-md border border-rose-200 bg-rose-50 px-5 py-4 text-center text-rose-950 shadow-sm">
+                        <p class="text-lg">
+                            <span class="font-semibold break-all">@Model?.Domain</span> is taken.
+                        </p>
+                    </section>
+                }
+            }
+        </div>
+    </div>
+</div>
 
 
 @code {
     [SupplyParameterFromForm]
-    public DomainSearch Model { get; set; } = new();
+    public DomainSearch? Model { get; set; }
     public bool? IsDomainAvailable;
 
     const string DOMAIN_REGEX = @"(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z0-9][a-z0-9-]{0,61}[a-z0-9]";
 
     protected override void OnInitialized()
     {
-
+        Model ??= new();
     }
 
     private async Task Submit()
     {
         // TODO: show validation error
-        if (Model.Domain is null) return;
+        if (Model?.Domain is null) return;
+
+        var domain = Model.Domain;
 
         try
         {
             var match = Regex.Match(
-                input: Model.Domain,
+                input: domain,
                 pattern: DOMAIN_REGEX,
                 options: RegexOptions.IgnoreCase | RegexOptions.Compiled,
                 matchTimeout: TimeSpan.FromSeconds(3)
@@ -81,7 +92,7 @@
             return;
         }
         
-        IsDomainAvailable = !await DogeService.DoesDomainExist(Model.Domain);
+        IsDomainAvailable = !await DogeService.DoesDomainExist(domain);
     }
 
     public class DomainSearch
