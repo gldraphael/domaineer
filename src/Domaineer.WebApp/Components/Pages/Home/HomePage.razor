@@ -8,7 +8,7 @@
 
 <PageTitle>Anonymous domain search</PageTitle>
 
-<div class="h-full flex justify-center items-start pt-4 md:items-center md:pt-0">
+<div data-domain-result="@BackgroundState" class="h-full flex justify-center items-start pt-4 md:items-center md:pt-0">
     <div class="w-full max-w-xl flex flex-col gap-4">
         <form
             method="post" @onsubmit="Submit" @formname="form-domain-search"
@@ -35,7 +35,7 @@
             {
                 if (IsDomainAvailable.Value)
                 {
-                    <section role="status" aria-live="polite" class="w-full min-h-20 flex items-center justify-center rounded-md border border-emerald-200 bg-emerald-50 px-5 py-4 text-center text-emerald-950 shadow-sm">
+                    <section role="status" aria-live="polite" class="w-full min-h-20 flex items-center justify-center rounded-md border border-emerald-300/70 bg-white/65 px-5 py-4 text-center text-emerald-950 shadow-sm backdrop-blur-md">
                         <p class="text-lg">
                             <span class="font-semibold break-all">@Model?.Domain</span> is available.
                         </p>
@@ -43,7 +43,7 @@
                 }
                 else
                 {
-                    <section role="status" aria-live="polite" class="w-full min-h-20 flex items-center justify-center rounded-md border border-rose-200 bg-rose-50 px-5 py-4 text-center text-rose-950 shadow-sm">
+                    <section role="status" aria-live="polite" class="w-full min-h-20 flex items-center justify-center rounded-md border border-rose-300/70 bg-white/65 px-5 py-4 text-center text-rose-950 shadow-sm backdrop-blur-md">
                         <p class="text-lg">
                             <span class="font-semibold break-all">@Model?.Domain</span> is taken.
                         </p>
@@ -59,6 +59,13 @@
     [SupplyParameterFromForm]
     public DomainSearch? Model { get; set; }
     public bool? IsDomainAvailable;
+
+    private string BackgroundState => IsDomainAvailable switch
+    {
+        true => "available",
+        false => "taken",
+        _ => "none",
+    };
 
     const string DOMAIN_REGEX = @"(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z0-9][a-z0-9-]{0,61}[a-z0-9]";
 

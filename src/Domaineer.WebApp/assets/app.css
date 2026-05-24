@@ -75,6 +75,37 @@
   ::file-selector-button {
     border-color: var(--color-gray-200, currentcolor);
   }
+
+  html {
+    min-height: 100%;
+    background: #f8fafc;
+  }
+
+  body {
+    min-height: 100vh;
+    background:
+      radial-gradient(circle at 50% 18%, rgb(255 255 255 / 0.95), rgb(255 255 255 / 0) 36rem),
+      linear-gradient(145deg, #f8fafc 0%, #eef6f8 48%, #f8fafc 100%);
+    background-attachment: fixed;
+  }
+
+  body:has([data-domain-result="available"]) {
+    background:
+      radial-gradient(circle at 50% 18%, rgb(255 255 255 / 0.86), rgb(255 255 255 / 0) 34rem),
+      radial-gradient(circle at 18% 24%, rgb(167 243 208 / 0.95), rgb(167 243 208 / 0) 28rem),
+      radial-gradient(circle at 84% 22%, rgb(20 184 166 / 0.40), rgb(20 184 166 / 0) 30rem),
+      linear-gradient(145deg, #ecfdf5 0%, #bbf7d0 46%, #ccfbf1 100%);
+    background-attachment: fixed;
+  }
+
+  body:has([data-domain-result="taken"]) {
+    background:
+      radial-gradient(circle at 50% 18%, rgb(255 255 255 / 0.84), rgb(255 255 255 / 0) 34rem),
+      radial-gradient(circle at 18% 24%, rgb(253 164 175 / 0.95), rgb(253 164 175 / 0) 28rem),
+      radial-gradient(circle at 84% 22%, rgb(244 63 94 / 0.48), rgb(244 63 94 / 0) 30rem),
+      linear-gradient(145deg, #fff1f2 0%, #fecdd3 46%, #ffe4e6 100%);
+    background-attachment: fixed;
+  }
 }
 
 *{
@@ -138,4 +169,3 @@ h1:focus {
         right: 0.75rem;
         top: 0.5rem;
     }
-
