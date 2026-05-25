@@ -1,25 +1,17 @@
 ﻿@inherits LayoutComponentBase
 
-<main class="flex flex-col">
-
-    <header class="
-        mt-16 mb-8
-        text-center
-    ">
+<main class="app-shell">
+    <header class="app-header">
         <Domaineer.WebApp.Components.Layout.Header />
     </header>
-        
-    <div class="grow">
-    @Body
+
+    <div class="app-content">
+        @Body
     </div>
 
-    <footer style="margin-top: auto" class="
-        mb-8
-        text-center
-    ">
+    <footer class="app-footer">
         <Domaineer.WebApp.Components.Layout.Footer />
     </footer>
-
 </main>
 
 

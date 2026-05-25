@@ -8,44 +8,38 @@
 
 <PageTitle>Anonymous domain search</PageTitle>
 
-<div data-domain-result="@BackgroundState" class="h-full flex justify-center items-start pt-4 md:items-center md:pt-0">
-    <div class="w-full max-w-xl flex flex-col gap-4">
+<div data-domain-result="@BackgroundState" class="search-stage">
+    <div class="search-panel">
         <form
             method="post" @onsubmit="Submit" @formname="form-domain-search"
-            class="flex w-full flex-col gap-3 sm:flex-row">
+            class="domain-search-form">
             <AntiforgeryToken />
             <InputText
                 @bind-Value="Model!.Domain"
                 aria-label="Domain"
                 placeholder="example.org"
                 autofocus
-                class="w-full flex-1 rounded-xs"
+                class="domain-input"
             />
-            <button type="submit" class="
-                text-gray-900 text-sm px-5 py-2.5 text-center
-                bg-linear-to-r from-teal-200 to-lime-200
-                hover:bg-linear-to-l hover:from-teal-200 hover:to-lime-200
-                focus:ring-4 focus:outline-hidden focus:ring-lime-200
-                dark:focus:ring-teal-700
-                font-medium rounded-xs whitespace-nowrap">Check</button>
+            <button type="submit" class="domain-submit">Check</button>
         </form>
 
-        <div class="w-full min-h-20">
+        <div class="result-slot">
             @if (IsDomainAvailable is not null)
             {
                 if (IsDomainAvailable.Value)
                 {
-                    <section role="status" aria-live="polite" class="w-full min-h-20 flex items-center justify-center rounded-md border border-emerald-300/70 bg-white/65 px-5 py-4 text-center text-emerald-950 shadow-sm backdrop-blur-md">
-                        <p class="text-lg">
-                            <span class="font-semibold break-all">@Model?.Domain</span> is available.
+                    <section role="status" aria-live="polite" class="result-card result-card--available">
+                        <p class="result-card__text">
+                            <span class="result-card__domain">@Model?.Domain</span> is available.
                         </p>
                     </section>
                 }
                 else
                 {
-                    <section role="status" aria-live="polite" class="w-full min-h-20 flex items-center justify-center rounded-md border border-rose-300/70 bg-white/65 px-5 py-4 text-center text-rose-950 shadow-sm backdrop-blur-md">
-                        <p class="text-lg">
-                            <span class="font-semibold break-all">@Model?.Domain</span> is taken.
+                    <section role="status" aria-live="polite" class="result-card result-card--taken">
+                        <p class="result-card__text">
+                            <span class="result-card__domain">@Model?.Domain</span> is taken.
                         </p>
                     </section>
                 }
